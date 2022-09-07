@@ -8,9 +8,11 @@ import {StarIcon} from '@heroicons/react/outline';
 import {BellIcon, ChatIcon, GlobeIcon, PlusIcon, SparklesIcon, SpeakerphoneIcon, VideoCameraIcon} from '@heroicons/react/outline';
 import {ChevronDownIcon, HomeIcon} from "@heroicons/react/solid";
 import SearchIcon from '@mui/icons-material/Search';
-import {signIn} from "next-auth/react";
+import {signIn, signOut, useSession} from "next-auth/react";
 
 const Header = () => {
+    const {data: session} = useSession();
+
     return (
         <div className="sticky top-0 z-50 flex items-center bg-white px-4 py-2 shadow-sm">
             <div className="relative h-10 w-20 flex-shrink-0 hover:cursor-pointer">
@@ -46,13 +48,27 @@ const Header = () => {
                 <MenuIcon className="icon" />
             </div>
 
-            <div onClick={() => signIn()} className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
-                <div className="relative w-5 h-5 flex-shrink-0">
-                    <Image src="https://links.papareact.com/23l" layout={'fill'} objectFit={'contain'} alt=""/>
+            {session ? (
+                <div onClick={() => signOut()} className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
+                    <div className="relative w-5 h-5 flex-shrink-0">
+                        <Image src="https://links.papareact.com/23l" layout={'fill'} objectFit={'contain'} alt=""/>
+                    </div>
+                    {/* sign in option */}
+                    <div className="flex-1 text-xs">
+                        <p className="truncate">{session?.user?.name}</p>
+                        <p className="text-gray-400">1 Karma</p>
+                    </div>
+                    <ChevronDownIcon className="h-5 flex-shrink-0 text-gray-400" />
                 </div>
-                {/* sign in option */}
-                <p className="text-gray-400">Sign in</p>
-            </div>
+            ) : (
+                <div onClick={() => signIn()} className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
+                    <div className="relative w-5 h-5 flex-shrink-0">
+                        <Image src="https://links.papareact.com/23l" layout={'fill'} objectFit={'contain'} alt=""/>
+                    </div>
+                    {/* sign in option */}
+                    <p className="text-gray-400">Sign in</p>
+                </div>
+            )}
 
         </div>
     );
