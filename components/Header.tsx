@@ -8,6 +8,7 @@ import {StarIcon} from '@heroicons/react/outline';
 import {BellIcon, ChatIcon, GlobeIcon, PlusIcon, SparklesIcon, SpeakerphoneIcon, VideoCameraIcon} from '@heroicons/react/outline';
 import {ChevronDownIcon, HomeIcon} from "@heroicons/react/solid";
 import SearchIcon from '@mui/icons-material/Search';
+import {signIn} from "next-auth/react";
 
 const Header = () => {
     return (
@@ -45,7 +46,7 @@ const Header = () => {
                 <MenuIcon className="icon" />
             </div>
 
-            <div className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
+            <div onClick={() => signIn()} className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
                 <div className="relative w-5 h-5 flex-shrink-0">
                     <Image src="https://links.papareact.com/23l" layout={'fill'} objectFit={'contain'} alt=""/>
                 </div>
