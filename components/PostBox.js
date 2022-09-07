@@ -1,13 +1,15 @@
 import React from 'react';
 import {useSession} from "next-auth/react";
+import Avatar from "./Avatar";
 
 const PostBox = () => {
     const {data: session} = useSession();
     return (
         <form>
-            <div>
+            <div className="flex items-center space-x-3">
+                <Avatar />
             {/*    avatar   */}
-                <input type="text"/>
+                <input disabled={!session} className="rounded-md flex-1 bg-gray-50 p-2 pl-5 outline-none" type="text" placeholder={session ? 'Create a post by entering a title!' : 'Sign in to post'} />
             </div>
         </form>
     );
