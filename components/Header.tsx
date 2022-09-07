@@ -45,6 +45,12 @@ const Header = () => {
                 <MenuIcon className="icon" />
             </div>
 
+            <div className="hidden lg:flex items-center border border-gray-100 p-2 hover:cursor-pointer space-x-2">
+                <div className="relative w-5 h-5 flex-shrink-0">
+                    <Image src="https://links.papareact.com/23l" layout={'fill'} objectFit={'contain'} alt=""/>
+                </div>
+                <p className="text-gray-400">Sign in</p>
+            </div>
 
         </div>
     );
