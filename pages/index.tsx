@@ -11,8 +11,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="https://play-lh.googleusercontent.com/nlptFyxNsb8J0g8ZLux6016kunduV4jCxIrOJ7EEy-IobSN1RCDXAJ6DTGP81z7rr5Zq" />
       </Head>
 
-        <Header />
-
     </div>
   )
 }
