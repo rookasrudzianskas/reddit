@@ -6,15 +6,15 @@ import PostBox from '../components/PostBox';
 
 const Home: NextPage = () => {
   return (
-    <div className="">
+    <div className="max-w-5xl my-7 mx-auto">
       <Head>
         <title>Reddit</title>
         <link rel="icon" href="https://play-lh.googleusercontent.com/nlptFyxNsb8J0g8ZLux6016kunduV4jCxIrOJ7EEy-IobSN1RCDXAJ6DTGP81z7rr5Zq" />
       </Head>
 
-        <div>
+        <PostBox />
+        <div className="flex">
         {/*    Feed */}
-            <PostBox />
         </div>
 
     </div>
