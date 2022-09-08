@@ -9,3 +9,9 @@ export const GET_SUBREDDIT_BY_TOPIC = gql`
         }
     }
     `
+
+export const GET_ALL_POSTS = gql`
+    query MyQuery {
+        
+    }
+`
