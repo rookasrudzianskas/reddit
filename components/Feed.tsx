@@ -3,8 +3,12 @@ import {useQuery} from "@apollo/client";
 import {GET_ALL_POSTS} from "../graphql/queries";
 import Post from './Post';
 
-const Feed = () => {
-    const { data, error } = useQuery(GET_ALL_POSTS);
+type Props = {
+    topic?: string
+}
+
+const Feed = ({topic}: Props) => {
+    const { data, error } = !topic ? useQuery(GET_ALL_POSTS) : useQuery();
 
     const posts: Post[] = data?.getPostList;
     return (
