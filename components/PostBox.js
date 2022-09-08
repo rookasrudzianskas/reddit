@@ -55,7 +55,21 @@ const PostBox = () => {
 
             } else {
                 // use existing subreddit
+                console.log('Subreddit exists! -> using existing subreddit!');
+                console.log(getSubredditListByTopic);
 
+                const image = formData.postImage || '';
+                const {data: { insertPost: newPost }} = await addPost({
+                    variables: {
+                        body: formData.postBody,
+                        image: image,
+                        subreddit_id: getSubredditListByTopic[0].id,
+                        title: formData.postTitle,
+                        username: session?.user?.name,
+                    }
+                });
+
+                console.log('New post created!', newPost);
             }
         } catch (e) {
 
