@@ -28,7 +28,7 @@ const PostBox = () => {
                 variables: {
                     topic: formData.subreddit
                 }
-            })
+            });
 
             const subredditExists = getSubredditListByTopic.length > 0;
 
