@@ -5,14 +5,19 @@ import {LinkIcon, PhotographIcon} from '@heroicons/react/outline';
 import { useForm } from "react-hook-form";
 import {useMutation, useQuery} from "@apollo/client";
 import {ADD_POST, ADD_SUBREDDIT} from "../graphql/mutations";
-import {GET_SUBREDDIT_BY_TOPIC} from "../graphql/queries";
+import {GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC} from "../graphql/queries";
 import client from "../apollo-client";
 import toast from "react-hot-toast";
 
 const PostBox = () => {
     const {data: session} = useSession();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
-    const [addPost] = useMutation(ADD_POST);
+    const [addPost] = useMutation(ADD_POST, {
+        refetchQueries: [
+            GET_ALL_POSTS,
+            'getPostList'
+        ]
+    });
     const [addSubreddit] = useMutation(ADD_SUBREDDIT);
 
     const [imageBoxOpen, setImageBoxOpen] = useState(false);
