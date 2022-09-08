@@ -2,10 +2,11 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import Avatar from "../../components/Avatar";
 import Feed from '../../components/Feed';
-import PostBox from "../../components/PostBox";
+import PostBox from '../../components/PostBox';
 
 const Subreddit = () => {
     const { query: {topic}, } = useRouter();
+    // @ts-ignore
     return (
         <div className={`h-24 bg-red-400 p-8`}>
             <div className="-mx-8 mt-10 bg-white">
@@ -22,8 +23,9 @@ const Subreddit = () => {
             </div>
 
 
-            <div className="mx-auto max-w-5xl mt-5 pb-10">
-                <PostBox />
+            <div className="mx-auto max-w-5xl mt-8 pb-10">
+                {/* @ts-ignore */}
+                <PostBox subreddit={topic as string} />
                 <Feed />
             </div>
         </div>

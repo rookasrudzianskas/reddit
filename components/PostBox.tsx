@@ -9,7 +9,18 @@ import {GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC} from "../graphql/queries";
 import client from "../apollo-client";
 import toast from "react-hot-toast";
 
-const PostBox = () => {
+type FormData = {
+    postTitle: string
+    postBody: string
+    postImage: string
+    subreddit: string
+}
+
+type Props = {
+    subreddit?: string
+}
+
+const PostBox = ({subreddit}: Props) => {
     const {data: session} = useSession();
     const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
     const [addPost] = useMutation(ADD_POST, {
@@ -31,8 +42,8 @@ const PostBox = () => {
             const { data: { getSubredditListByTopic }, } = await client.query({
                 query: GET_SUBREDDIT_BY_TOPIC,
                 variables: {
-                    topic: formData.subreddit
-                }
+                    topic: subreddit || formData.subreddit,
+                },
             });
 
             const subredditExists = getSubredditListByTopic.length > 0;
@@ -97,7 +108,7 @@ const PostBox = () => {
                 <Avatar />
             {/*    avatar   */}
                 <input {...register('postTitle', {required: true})}
-                    disabled={!session} className="rounded-md flex-1 bg-gray-50 p-2 pl-5 outline-none" type="text" placeholder={session ? 'Create a post by entering a title!' : 'Sign in to post'} />
+                    disabled={!session} className="rounded-md flex-1 bg-gray-50 p-2 pl-5 outline-none" type="text" placeholder={session ? subreddit ? `Create a post in r/${subreddit}` : 'Create a post by entering a title!' : 'Sign in to post'} />
 
                 <PhotographIcon onClick={() => setImageBoxOpen(!imageBoxOpen)} className={`h-6 text-gray-300 hover:cursor-pointer ${imageBoxOpen && 'text-blue-500'}`} />
                 <LinkIcon className={`h-6 text-gray-300 hover:cursor-pointer`} />
@@ -109,10 +120,13 @@ const PostBox = () => {
                         <input className="m-2 flex-1 bg-blue-50 p-2 outline-none" {...register('postBody')} type="text" placeholder={'Text (optional)'}/>
                     </div>
 
-                    <div className="flex items-center px-2">
-                        <p className="min-w-[90px]">Subreddit:</p>
-                        <input className="m-2 flex-1 bg-blue-50 p-2 outline-none" {...register('subreddit', {required: true})} type="text" placeholder={'i.e. reactjs'}/>
-                    </div>
+
+                    {!subreddit && (
+                        <div className="flex items-center px-2">
+                            <p className="min-w-[90px]">Subreddit:</p>
+                            <input className="m-2 flex-1 bg-blue-50 p-2 outline-none" {...register('subreddit', {required: true})} type="text" placeholder={'i.e. reactjs'}/>
+                        </div>
+                    )}
 
                     {imageBoxOpen && (
                         <div className="flex items-center px-2">
