@@ -18,7 +18,7 @@ const PostBox = () => {
     const [imageBoxOpen, setImageBoxOpen] = useState(false);
 
     const onSubmit = handleSubmit(async (formData) => {
-        console.log(formData);
+        console.log(formData, '<<<<<<<<<<<<<<');
         const notification = toast.loading('Creating a new post...')
 
         try {
@@ -81,7 +81,7 @@ const PostBox = () => {
             toast.success('Post created successfully!', {id: notification});
 
         } catch (e) {
-            toast.error('Whooops, something went wrong', {id: notification});
+            toast.error('Whoops, something went wrong', {id: notification});
         }
     });
 
