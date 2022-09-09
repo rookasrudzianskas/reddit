@@ -60,8 +60,19 @@ const Post = ({post}: Props) => {
                 upvote: isUpvote,
             }
         })
-        console.log("YOU PLACED A VOTE", data);
+        // console.log("YOU PLACED A VOTE", data);
     }
+        // @ts-ignore
+    const displayVotes = (data: any) => {
+        const votes: Vote[] = data?.getVotesByPostId;
+        // @ts-ignore
+        const displayNumber = votes?.reduce((total, vote) => vote.upvote ? (total += 1) : (total -= 1), 0);
+            if(votes?.length === 0) return 0;
+            if(displayNumber === 0) {
+                return votes[0]?.upvote ? 1 : -1;
+            }
+        return displayNumber;
+        }
 
     useEffect(() => {
         const votes: Vote[] = data?.getVotesByPostId;
@@ -85,7 +96,7 @@ const Post = ({post}: Props) => {
             <div className="flex cursor-pointer rounded-md border border-gray-300 bg-white shadow-sm hover:border-gray-600 duration-150">
                 <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
                     <ArrowUpIcon onClick={() => upVote(true)} className={`voteButtons hover:text-red-400 duration-150 cursor-pointer ${vote && 'text-red-400'}`} />
-                    <p className={`text-black text-xs font-bold`}>0</p>
+                    <p className={`text-black text-xs font-bold`}>{displayVotes(data)}</p>
                     <ArrowDownIcon onClick={() => upVote(false)} className={`voteButtons hover:text-blue-400 duration-150 cursor-pointer ${vote === false && 'text-blue-400'}`} />
                 </div>
                 {/* rest */}
