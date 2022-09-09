@@ -20,7 +20,6 @@ export const ADD_VOTE = gql`
             id
             created_at
             post_id
-            post_id
             upvote
             username
         }
