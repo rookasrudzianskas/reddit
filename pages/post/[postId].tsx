@@ -25,23 +25,27 @@ const PostPage = () => {
     });
     const post: Post = data?.getPostListByPostId;
 
-    const { register, handleSubmit, setValue watch, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = async (formData) => {
         // post comment here
         // console.log(formData);
-        toast.loading('Posting comment...');
+        const notification = toast.loading('Posting comment...');
         await addComment({
             variables: {
                 post_id: router.query.postId,
                 username: session?.user?.name,
-                text: data.comment
+                text: formData.comment
             }
         })
 
         setValue('comment', '');
-        toast.success('Comment posted!');
+        toast.success('Comment posted!', {
+            id: notification
+        });
     }
+
+    // console.log(data)
 
     // console.log('This is the post');
     // console.log(post);
