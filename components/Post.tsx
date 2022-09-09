@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -14,6 +14,9 @@ import Link from "next/link";
 import { Jelly } from '@uiball/loaders';
 import {useSession} from "next-auth/react";
 import toast from "react-hot-toast";
+import {useMutation, useQuery} from "@apollo/client";
+import {GET_ALL_VOTES_BY_POST_ID} from "../graphql/queries";
+import { ADD_VOTE } from '../graphql/mutations';
 
 type Props = {
     post: Post;
@@ -22,13 +25,31 @@ type Props = {
 const Post = ({post}: Props) => {
     const {data: session} = useSession();
     const [vote, setVote] = useState<boolean>();
+
+    const { data, loading } = useQuery(GET_ALL_VOTES_BY_POST_ID, {
+        variables: {
+            post_id: post?.id
+        }
+    })
+
+    const [addVote] = useMutation(ADD_VOTE, {
+        refetchQueries: [GET_ALL_VOTES_BY_POST_ID, 'getVotesByPostId'],
+    })
+
     const upVote = async (isUpvote: boolean) => {
         if(!session) {
             toast("🔴 You must be logged in to vote!");
             return;
         }
-
     }
+
+    useEffect(() => {
+        const votes: Vote[] = data?.getVotesByPostId;
+        const vote = votes?.find(vote => vote.username === session?.user?.name);
+        // @ts-ignore
+        setVote(vote);
+
+    }, [data]);
 
     if(!post) {
         return (
