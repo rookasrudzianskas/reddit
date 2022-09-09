@@ -32,7 +32,7 @@ const Post = ({post}: Props) => {
         }
     })
 
-    console.log('There is error', error);
+    // console.log('There is error', error);
 
     const [addVote] = useMutation(ADD_VOTE, {
         refetchQueries: [GET_ALL_VOTES_BY_POST_ID, 'getVotesByPostId'],
@@ -60,6 +60,7 @@ const Post = ({post}: Props) => {
                 upvote: isUpvote,
             }
         })
+        console.log("YOU PLACED A VOTE", data);
 
     }
 

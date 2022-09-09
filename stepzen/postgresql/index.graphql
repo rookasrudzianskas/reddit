@@ -65,7 +65,7 @@ type Query {
   )
 
   getVotesByPostId(post_id: ID!): [Vote]
-  @dbquery(
+  @dbquery(in
     type: "postgresql"
     schema: "public"
     query: """
