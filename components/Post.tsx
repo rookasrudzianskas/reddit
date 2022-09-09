@@ -41,6 +41,24 @@ const Post = ({post}: Props) => {
             toast("🔴 You must be logged in to vote!");
             return;
         }
+
+        if(vote && isUpvote) {
+            return;
+        }
+        if(vote === false && !isUpvote) {
+            return;
+        }
+
+        console.log('Voting...', isUpvote);
+
+        await addVote({
+            variables: {
+                post_id: post?.id,
+                username: session?.user?.name,
+                upvote: isUpvote,
+            }
+        })
+
     }
 
     useEffect(() => {
