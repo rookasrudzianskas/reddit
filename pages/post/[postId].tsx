@@ -1,10 +1,12 @@
 import React from 'react';
 import {useRouter} from "next/router";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {GET_POST_BY_POST_ID} from "../../graphql/queries";
 import Post from '../../components/Post';
 import { useSession } from 'next-auth/react';
 import {SubmitHandler, useForm} from "react-hook-form";
+import {ADD_COMMENT} from "../../graphql/mutations";
+import toast from "react-hot-toast";
 
 type FormData = {
     comment: string
@@ -13,6 +15,9 @@ type FormData = {
 const PostPage = () => {
     const router = useRouter();
     const {data: session} = useSession();
+    const [addComment] = useMutation(ADD_COMMENT, {
+        refetchQueries: [GET_POST_BY_POST_ID, 'getPostListByPostId'],
+    });
     const { data } = useQuery(GET_POST_BY_POST_ID, {
         variables: {
             post_id: router.query.postId
@@ -20,12 +25,22 @@ const PostPage = () => {
     });
     const post: Post = data?.getPostListByPostId;
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, setValue watch, formState: { errors } } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = async (formData) => {
         // post comment here
-        console.log(formData);
+        // console.log(formData);
+        toast.loading('Posting comment...');
+        await addComment({
+            variables: {
+                post_id: router.query.postId,
+                username: session?.user?.name,
+                text: data.comment
+            }
+        })
 
+        setValue('comment', '');
+        toast.success('Comment posted!');
     }
 
     // console.log('This is the post');
