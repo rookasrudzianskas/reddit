@@ -61,7 +61,6 @@ const Post = ({post}: Props) => {
             }
         })
         console.log("YOU PLACED A VOTE", data);
-
     }
 
     useEffect(() => {
