@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import {ADD_COMMENT} from "../../graphql/mutations";
 import toast from "react-hot-toast";
+import Avatar from '../../components/Avatar';
 
 type FormData = {
     comment: string
@@ -61,6 +62,18 @@ const PostPage = () => {
                     <textarea {...register('comment')} disabled={!session} placeholder={`${session ? 'What are your thoughts?' : 'Please Sign in to comment'}`} className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50" />
                     <button type="submit" className="rounded-full bg-red-500 p-3 font-semibold text-white disabled:bg-gray-200">Comment</button>
                 </form>
+            </div>
+
+            <div className="-my-5">
+                <hr className="py-2"/>
+                {post?.comments.map(comment => (
+                    <div key={comment.id}>
+                        <hr/>
+                        <div>
+                            <Avatar seed={comment.username} />
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
