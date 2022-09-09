@@ -26,11 +26,13 @@ const Post = ({post}: Props) => {
     const {data: session} = useSession();
     const [vote, setVote] = useState<boolean>();
 
-    const { data, loading } = useQuery(GET_ALL_VOTES_BY_POST_ID, {
+    const { data, loading, error } = useQuery(GET_ALL_VOTES_BY_POST_ID, {
         variables: {
             post_id: post?.id
         }
     })
+
+    console.log('There is error', error);
 
     const [addVote] = useMutation(ADD_VOTE, {
         refetchQueries: [GET_ALL_VOTES_BY_POST_ID, 'getVotesByPostId'],
@@ -82,9 +84,9 @@ const Post = ({post}: Props) => {
         <Link href={`/post/${post.id}`}>
             <div className="flex cursor-pointer rounded-md border border-gray-300 bg-white shadow-sm hover:border-gray-600 duration-150">
                 <div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-                    <ArrowUpIcon onClick={() => upVote(true)} className="voteButtons hover:text-red-400 duration-150 cursor-pointer" />
-                    <p className="text-black text-xs font-bold">0</p>
-                    <ArrowDownIcon onClick={() => upVote(false)} className="voteButtons hover:text-blue-400 duration-150 cursor-pointer" />
+                    <ArrowUpIcon onClick={() => upVote(true)} className={`voteButtons hover:text-red-400 duration-150 cursor-pointer ${vote && 'text-red-400'}`} />
+                    <p className={`text-black text-xs font-bold`}>0</p>
+                    <ArrowDownIcon onClick={() => upVote(false)} className={`voteButtons hover:text-blue-400 duration-150 cursor-pointer ${vote === false && 'text-blue-400'}`} />
                 </div>
                 {/* rest */}
                 <div className="p-3 pb-1">
